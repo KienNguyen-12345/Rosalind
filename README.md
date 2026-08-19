@@ -78,7 +78,7 @@ This repository demonstrates practical implementations of computational biology 
 ## 🚀 Key Highlights & Implementations
 
 ### 1. Transition/Transversion Ratio (`TRAN`)
-Distinguishing purine-to-purine ($	ext{A} \leftrightarrow 	ext{G}$) and pyrimidine-to-pyrimidine ($	ext{C} \leftrightarrow 	ext{T}$) transitions from transversions across aligned DNA strings:
+Distinguishing purine-to-purine (A <-- > G) and pyrimidine-to-pyrimidine (C <--> T) transitions from transversions across aligned DNA strings:
 ```R
 transitions <- 0
 transversions <- 0

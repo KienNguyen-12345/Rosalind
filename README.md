@@ -43,7 +43,7 @@ This repository demonstrates practical implementations of computational biology 
 │   └── perfect_matchings_rna.R           # RNA Secondary Structure Combinatorics (PMCH)
 ├── data/                                 # Sample input files (.txt, .fasta)
 ├── README.md                             # Repository documentation
-└── LICENSE                               # MIT License
+
 ```
 
 ---

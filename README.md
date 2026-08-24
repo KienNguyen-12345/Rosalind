@@ -3,20 +3,22 @@
 [![Language](https://img.shields.io/badge/Language-R_%3E%3D_4.0-blue.svg)](https://www.r-project.org/)
 [![Bioconductor](https://img.shields.io/badge/Bioconductor-Biostrings-green.svg)](https://bioconductor.org/packages/release/bioc/html/Biostrings.html)
 [![Platform](https://img.shields.io/badge/Platform-Rosalind-purple.svg)](https://rosalind.info/)
-A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, dynamic programming, probabilistic genetics, combinatorics, graph theory, mutation analysis, recursive generation, and motif discovery using base R and high-performance Bioconductor packages.
+
+A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, dynamic programming, probabilistic genetics, combinatorics, graph theory, mutation analysis, recursive generation, custom codon translation, and motif discovery using base R and high-performance Bioconductor packages.
 
 ---
 
 ## 📌 Project Overview
 
 This repository demonstrates practical implementations of computational biology algorithms, emphasizing:
-- **Idiomatic R & Vectorization:** Writing efficient R code with minimized overhead and vectorized sequence transformations.
-- **Bioconductor Integration:** Leveraging standard high-throughput sequence analysis packages like `Biostrings` for FASTA parsing, translation, consensus matrices, and reverse complementation.
+- **Idiomatic R & Vectorization:** Writing efficient R code with minimized overhead, vectorized sequence transformations, and benchmarking iterative vs. vectorized workflows.
+- **Bioconductor Integration:** Leveraging standard high-throughput sequence analysis packages like `Biostrings` for FASTA parsing, translation, consensus matrices, letter frequencies, and reverse complementation.
+- **Custom Translation & Genetic Code Engines:** Implementing codon dictionary lookups with vectorized step indexing (`seq(..., by = 3)`) and stop codon termination alongside automated `Biostrings::translate`.
 - **Exact Numeric Computing & Modular Arithmetic:** Handling arbitrary-precision combinatorial calculations using `gmp` and calculating large reverse-translation counts modulo $1{,}000{,}000$.
-- **Dynamic Programming & Age-Structured Modeling:** Implementing recurrence relations with mortality/lifespan limits via vector shifting.
+- **Dynamic Programming & Population Dynamics:** Implementing classical and mortal recurrence relations with mortality/lifespan limits via state-tracking vectors.
 - **Recursive Backtracking:** Generating lexicographic permutations of length $n$.
-- **String Algorithms & Pattern Matching:** Utilizing PCRE regular expressions (lookaheads, zero-width assertions), substring extractions, prefix/suffix graph lookups, and two-pointer greedy scans.
-- **Mutation & Evolutionary Metrics:** Calculating transition/transversion ratios ($R = \text{transitions} / \text{transversions}$) and point mutation distances.
+- **String Algorithms & Pattern Matching:** Utilizing PCRE regular expressions (lookaheads, zero-width assertions), sliding-window substring extractions, prefix/suffix graph lookups, and two-pointer greedy scans.
+- **Mutation & Evolutionary Metrics:** Calculating transition/transversion ratios ($R = \text{transitions} / \text{transversions}$) and pairwise point mutation distances.
 - **Probabilistic Modeling:** Calculating Mendelian inheritance probabilities, expected dominant phenotypes, and binomial distributions.
 
 ---
@@ -29,11 +31,11 @@ This repository demonstrates practical implementations of computational biology 
 │   ├── counting_dna_nucleotides.R        # Counting DNA Nucleotides (DNA)
 │   ├── DNA_transcription.R               # Transcribing DNA into RNA (RNA)
 │   ├── reverse_complement.R              # Complementing a Strand of DNA (REVC)
-│   ├── gc_content.R                      # Computing GC Content (GC)
-│   ├── hamming_distance.R                # Counting Point Mutations (HAMM)
+│   ├── gc_content.R                      # Computing GC Content (GC) [Base R & Biostrings]
+│   ├── hamming_distance.R                # Counting Point Mutations (HAMM) [Loop & Vectorized]
 │   ├── transitions_transversions.R       # Transitions and Transversions (TRAN)
 │   ├── motif_search_dna.R                # Finding a Motif in DNA (SUBS)
-│   ├── RNA_translation.R                 # Translating RNA into Protein (PROT)
+│   ├── RNA_translation.R                 # Translating RNA into Protein (PROT) [Custom Engine & Biostrings]
 │   ├── mendels_first_law.R               # Mendel's First Law (IPRB)
 │   ├── recurrence_rabbits.R              # Rabbits and Recurrence Relations (FIB)
 │   ├── mortal_fibonacci_rabbits.R        # Mortal Fibonacci Rabbits (FIBD)
@@ -61,11 +63,11 @@ This repository demonstrates practical implementations of computational biology 
 | **`DNA`** | Counting DNA Nucleotides | Character Frequency Counting | `stringr::str_count` / `Biostrings::alphabetFrequency` |
 | **`RNA`** | Transcribing DNA into RNA | Nucleic Acid Substitution | `chartr()` |
 | **`REVC`** | Complementing a Strand of DNA | Reverse Complement Generation | `chartr()` + `rev()`, `Biostrings::reverseComplement` |
-| **`GC`** | Computing GC Content | FASTA Parsing & Ratio Analysis | `Biostrings::letterFrequency` |
-| **`HAMM`** | Counting Point Mutations | Vectorized Hamming Distance | Vector comparison `sum(s1 != s2)` |
+| **`GC`** | Computing GC Content | FASTA Parsing & Ratio Analysis | `Biostrings::letterFrequency` / Vectorized `sapply` |
+| **`HAMM`** | Counting Point Mutations | Vectorized & Iterative Hamming Distance | Vector comparison `sum(s1 != s2)` / for-loop accumulator |
 | **`TRAN`** | Transitions and Transversions | Purine/Pyrimidine Mutation Classification | Pairwise character comparison & ratio computation |
 | **`SUBS`** | Finding a Motif in DNA | Substring Sliding Window | Vectorized `substr()` & index matching |
-| **`PROT`** | Translating RNA into Protein | Genetic Code Translation | `Biostrings::translate` |
+| **`PROT`** | Translating RNA into Protein | Genetic Code Translation & Codon Engine | `Biostrings::translate` / Vectorized custom 64-codon dictionary |
 | **`IPRB`** | Mendel's First Law | Mendelian Inheritance & Probability | Analytical complementary probability |
 | **`FIB`** | Rabbits & Recurrence Relations | Dynamic Programming / Recurrence | Vector pre-allocation ($O(n)$) |
 | **`FIBD`** | Mortal Fibonacci Rabbits | Dynamic Programming / Age Shifting | Vector state-tracking with `gmp::bigz` |
@@ -84,7 +86,39 @@ This repository demonstrates practical implementations of computational biology 
 
 ## 🚀 Key Highlights & Implementations
 
-### 1. Mortal Fibonacci Rabbits (`FIBD`)
+### 1. Vectorized Codon Translation Engine (`PROT`)
+A clean base R translation pipeline implementing step-based codon extraction (`seq(..., by = 3)`) and named dictionary lookups with early stop-codon termination:
+```R
+rna_translate <- function(sequence, codon_table) {
+  # Generate 1-based codon start indices
+  pos_0 <- seq(from = 1, to = nchar(sequence) - 2, by = 3)
+  codons <- substring(sequence, first = pos_0, last = pos_0 + 2)
+  
+  # Dictionary mapping
+  translated <- codon_table[codons]
+  
+  # Stop codon truncation
+  stop_index <- which(translated == "Stop")[1]
+  if (!is.na(stop_index)) {
+    translated <- translated[1:(stop_index - 1)]
+  }
+  paste(translated, collapse = "")
+}
+```
+
+### 2. High-Throughput GC-Content Calculation (`GC`)
+Leveraging Biostrings matrix operations for instant nucleotide counting across multiple FASTA entries:
+```R
+library(Biostrings)
+sequences  <- readDNAStringSet("rosalind_gc.txt")
+gc_count   <- rowSums(letterFrequency(sequences, letters = c("G", "C")))
+gc_percent <- (gc_count / width(sequences)) * 100
+
+max_idx <- which.max(gc_percent)
+cat(sprintf("%s\n%.6f\n", names(sequences)[max_idx], gc_percent[max_idx]))
+```
+
+### 3. Mortal Fibonacci Rabbits (`FIBD`)
 Simulating demographic age shifts with mortality limits $m$ using `gmp::bigz` to prevent integer overflow over large generational intervals:
 ```R
 library(gmp)
@@ -96,35 +130,6 @@ for (month in 2:n) {
   ages <- c(newborns, ages[1:(m - 1)])
 }
 total_population <- sum(ages)
-```
-
-### 2. Inferring mRNA from Protein (`MRNA`)
-Tracking degenerate codon counts and stop codons under modular arithmetic to prevent integer explosion:
-```R
-solved_problem <- function(protein_seq_sub) {
-  result <- 3 # Accounts for 3 stop codons
-  for (i in seq_along(protein_seq_sub)) {
-    x <- codon_table[protein_seq_sub[i]]
-    result <- (x * result) %% 1000000
-  }
-  return(result)
-}
-```
-
-### 3. Recursive Permutation Generator (`PERM`)
-Generating all $n!$ permutations of length $n$ using recursive depth-first backtracking:
-```R
-generate_permutation <- function(current, remaining) {
-  if (length(current) == n) {
-    result[[length(result) + 1]] <<- current
-    return()
-  }
-  for (x in remaining) {
-    new_current <- c(current, x)
-    new_remaining <- remaining[remaining != x]
-    generate_permutation(new_current, new_remaining)
-  }
-}
 ```
 
 ### 4. Transition/Transversion Ratio (`TRAN`)
@@ -200,5 +205,5 @@ Clone the repository and run any problem script directly from your terminal:
 ```bash
 git clone https://github.com/<your-username>/rosalind-r-solutions.git
 cd rosalind-r-solutions
-Rscript scripts/mortal_fibonacci_rabbits.R
+Rscript scripts/RNA_translation.R
 ```

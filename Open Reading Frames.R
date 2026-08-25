@@ -1,7 +1,6 @@
 library(Biostrings)
 #Read data:
-dna <- readDNAStringSet("rosalind_orf (2).txt")
-dna <- dna[[1]]
+dna <- readDNAStringSet("rosalind_orf (2).txt")[[1]]
 
 #Establish functions:
 solved_problem <- function(dna){
@@ -11,6 +10,7 @@ solved_problem <- function(dna){
     orf_starts <- numeric(0)
     # Phase 1: collect all ATGs in this frame
     #----------------------------------------
+    #i is the value of the position of the starting codon
     for(i in seq(from = starts, to =length(dna)-2, by = 3 )){
       codon <- subseq(dna, start = i, end = i + 2)
       #_____________________________________
@@ -24,10 +24,10 @@ solved_problem <- function(dna){
     #Phase 2: collect the sequence after find ATG:
     #Create the list of protein, start with empty value:
     proteins <- character(0)
-      #If find STOP after find ATG:
+      #Extract sequence starting from "ATG"
     #_____________________________________
         for(start in orf_starts){
-          #j is the value of the position of the starting codon
+          #j is the value of the position of the STOP codon
           for (j in seq(from = start, to = length(dna) - 2, by = 3)){
             codon <- subseq(dna, start = j, end = j + 2)
             codon_char <- as.character(codon)

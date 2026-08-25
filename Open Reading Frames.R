@@ -47,7 +47,7 @@ solved_problem <- function(dna){
      #_____________________________________
       }
     #----------------------------------------
-    #Return the list of proteins found in   
+    #Return the list of proteins after finishing loop
     return(proteins)
   }
 

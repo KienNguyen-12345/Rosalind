@@ -4,22 +4,21 @@
 [![Bioconductor](https://img.shields.io/badge/Bioconductor-Biostrings-green.svg)](https://bioconductor.org/packages/release/bioc/html/Biostrings.html)
 [![Platform](https://img.shields.io/badge/Platform-Rosalind-purple.svg)](https://rosalind.info/)
 
-A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, dynamic programming, probabilistic genetics, combinatorics, graph theory, mutation analysis, recursive generation, custom codon translation, and motif discovery using base R and high-performance Bioconductor packages.
+A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, 6-frame open reading frame (ORF) discovery, probabilistic sequence modeling, combinatorics, dynamic programming, population genetics, graph theory, and motif discovery using base R and high-performance Bioconductor packages.
 
 ---
 
 ## 📌 Project Overview
 
 This repository demonstrates practical implementations of computational biology algorithms, emphasizing:
-- **Idiomatic R & Vectorization:** Writing efficient R code with minimized overhead, vectorized sequence transformations, and benchmarking iterative vs. vectorized workflows.
-- **Bioconductor Integration:** Leveraging standard high-throughput sequence analysis packages like `Biostrings` for FASTA parsing, translation, consensus matrices, letter frequencies, and reverse complementation.
-- **Custom Translation & Genetic Code Engines:** Implementing codon dictionary lookups with vectorized step indexing (`seq(..., by = 3)`) and stop codon termination alongside automated `Biostrings::translate`.
-- **Exact Numeric Computing & Modular Arithmetic:** Handling arbitrary-precision combinatorial calculations using `gmp` and calculating large reverse-translation counts modulo $1{,}000{,}000$.
+- **Idiomatic R & Vectorization:** Writing efficient R code with minimized overhead and vectorized transformations.
+- **Bioconductor Integration:** Leveraging standard high-throughput sequence analysis packages like `Biostrings` for FASTA parsing, 6-frame ORF extraction, translation, consensus matrices, letter frequencies, and reverse complementation.
+- **Probabilistic Modeling & Log-Likelihoods:** Modeling random GC-content backgrounds using log-probabilities ($\log_{10} P$) to prevent arithmetic underflow.
+- **Combinatorics & Modular Arithmetic:** Calculating partial permutations $P(n, k)$ and large reverse-translation spaces modulo $1{,}000{,}000$, as well as exact factorials with `gmp`.
 - **Dynamic Programming & Population Dynamics:** Implementing classical and mortal recurrence relations with mortality/lifespan limits via state-tracking vectors.
 - **Recursive Backtracking:** Generating lexicographic permutations of length $n$.
 - **String Algorithms & Pattern Matching:** Utilizing PCRE regular expressions (lookaheads, zero-width assertions), sliding-window substring extractions, prefix/suffix graph lookups, and two-pointer greedy scans.
 - **Mutation & Evolutionary Metrics:** Calculating transition/transversion ratios ($R = \text{transitions} / \text{transversions}$) and pairwise point mutation distances.
-- **Probabilistic Modeling:** Calculating Mendelian inheritance probabilities, expected dominant phenotypes, and binomial distributions.
 
 ---
 
@@ -31,17 +30,20 @@ This repository demonstrates practical implementations of computational biology 
 │   ├── counting_dna_nucleotides.R        # Counting DNA Nucleotides (DNA)
 │   ├── DNA_transcription.R               # Transcribing DNA into RNA (RNA)
 │   ├── reverse_complement.R              # Complementing a Strand of DNA (REVC)
-│   ├── gc_content.R                      # Computing GC Content (GC) [Base R & Biostrings]
-│   ├── hamming_distance.R                # Counting Point Mutations (HAMM) [Loop & Vectorized]
+│   ├── gc_content.R                      # Computing GC Content (GC)
+│   ├── hamming_distance.R                # Counting Point Mutations (HAMM)
 │   ├── transitions_transversions.R       # Transitions and Transversions (TRAN)
 │   ├── motif_search_dna.R                # Finding a Motif in DNA (SUBS)
-│   ├── RNA_translation.R                 # Translating RNA into Protein (PROT) [Custom Engine & Biostrings]
+│   ├── RNA_translation.R                 # Translating RNA into Protein (PROT)
+│   ├── open_reading_frames.R             # Open Reading Frames (ORF) [6-Frame Scan]
 │   ├── mendels_first_law.R               # Mendel's First Law (IPRB)
 │   ├── recurrence_rabbits.R              # Rabbits and Recurrence Relations (FIB)
 │   ├── mortal_fibonacci_rabbits.R        # Mortal Fibonacci Rabbits (FIBD)
 │   ├── consensus_profile.R               # Consensus and Profile Matrix (CONS)
 │   ├── overlap_graphs.R                  # Overlap Graphs (GRPH)
 │   ├── expected_offspring.R              # Calculating Expected Offspring (IEV)
+│   ├── random_strings_prob.R             # Introduction to Random Strings (PROB)
+│   ├── partial_permutations.R            # Partial Permutations (PPER)
 │   ├── RNA_splicing.R                    # RNA Splicing & Exon Translation (SPLC)
 │   ├── spliced_motif.R                   # Finding Spliced Subsequence Motif (SSEQ)
 │   ├── protein_motif_search.R            # Finding Protein Motif via UniProt API (MPRT)
@@ -51,7 +53,6 @@ This repository demonstrates practical implementations of computational biology 
 │   └── perfect_matchings_rna.R           # RNA Secondary Structure Combinatorics (PMCH)
 ├── data/                                 # Sample input files (.txt, .fasta)
 ├── README.md                             # Repository documentation
-└── LICENSE                               # MIT License
 ```
 
 ---
@@ -68,12 +69,15 @@ This repository demonstrates practical implementations of computational biology 
 | **`TRAN`** | Transitions and Transversions | Purine/Pyrimidine Mutation Classification | Pairwise character comparison & ratio computation |
 | **`SUBS`** | Finding a Motif in DNA | Substring Sliding Window | Vectorized `substr()` & index matching |
 | **`PROT`** | Translating RNA into Protein | Genetic Code Translation & Codon Engine | `Biostrings::translate` / Vectorized custom 64-codon dictionary |
+| **`ORF`** | Open Reading Frames | 6-Frame Translation & Stop Codon Parsing | `Biostrings`, reading frames (0, 1, 2 forward & reverse) |
 | **`IPRB`** | Mendel's First Law | Mendelian Inheritance & Probability | Analytical complementary probability |
 | **`FIB`** | Rabbits & Recurrence Relations | Dynamic Programming / Recurrence | Vector pre-allocation ($O(n)$) |
 | **`FIBD`** | Mortal Fibonacci Rabbits | Dynamic Programming / Age Shifting | Vector state-tracking with `gmp::bigz` |
 | **`CONS`** | Consensus and Profile | Alignment Matrix & Position Scoring | `Biostrings::consensusMatrix` |
 | **`GRPH`** | Overlap Graphs | Prefix/Suffix Hash Lookups ($k=3$) | `base::split` hash lookups & adjacency list |
 | **`IEV`** | Calculating Expected Offspring | Linearity of Expectation | Vectorized dot product `sum(couples * prob)` |
+| **`PROB`** | Introduction to Random Strings | Log-Likelihood & GC-content Backgrounds | Log-space probabilities $\log_{10} P(s \mid x)$ |
+| **`PPER`** | Partial Permutations | Modular Combinatorics ($P(n, k) \pmod{10^6}$) | Cumulative product modulo $1{,}000{,}000$ |
 | **`SPLC`** | RNA Splicing | Exon Extraction & Splicing | `Biostrings`, `gsub(fixed=TRUE)` |
 | **`SSEQ`** | Finding a Spliced Motif | Subsequence Greedy Scan ($O(n)$) | Two-pointer traversal |
 | **`MPRT`** | Finding a Protein Motif | REST API & Lookahead Regex | `httr`, `gregexpr(perl=TRUE)` |
@@ -86,39 +90,42 @@ This repository demonstrates practical implementations of computational biology 
 
 ## 🚀 Key Highlights & Implementations
 
-### 1. Vectorized Codon Translation Engine (`PROT`)
-A clean base R translation pipeline implementing step-based codon extraction (`seq(..., by = 3)`) and named dictionary lookups with early stop-codon termination:
+### 1. 6-Frame Open Reading Frame Discovery (`ORF`)
+Scanning all three forward and three reverse-complement reading frames, tracking start codons (`ATG`) to stop codons (`TAA`, `TAG`, `TGA`), and deduplicating unique translated protein candidates:
 ```R
-rna_translate <- function(sequence, codon_table) {
-  # Generate 1-based codon start indices
-  pos_0 <- seq(from = 1, to = nchar(sequence) - 2, by = 3)
-  codons <- substring(sequence, first = pos_0, last = pos_0 + 2)
-  
-  # Dictionary mapping
-  translated <- codon_table[codons]
-  
-  # Stop codon truncation
-  stop_index <- which(translated == "Stop")[1]
-  if (!is.na(stop_index)) {
-    translated <- translated[1:(stop_index - 1)]
-  }
-  paste(translated, collapse = "")
+library(Biostrings)
+dna <- readDNAStringSet("rosalind_orf.txt")[[1]]
+rc  <- reverseComplement(dna)
+
+find_orf <- function(dna_seq, frame) {
+  # Collect start positions and scan in-frame until stop codon
+  ...
+}
+
+candidates <- unique(c(
+  find_orf(dna, 0), find_orf(dna, 1), find_orf(dna, 2),
+  find_orf(rc, 0),  find_orf(rc, 1),  find_orf(rc, 2)
+))
+```
+
+### 2. Random String Log-Likelihood Calculation (`PROB`)
+Computing the probability of observing a sequence given varying GC-content arrays using log-scale arithmetic to prevent underflow:
+```R
+# Given GC-content x: P(G) = P(C) = x/2, P(A) = P(T) = (1-x)/2
+log_prob <- gc_count * log10(x / 2) + at_count * log10((1 - x) / 2)
+```
+
+### 3. Partial Permutations with Modulo (`PPER`)
+Calculating $P(n, k) = \frac{n!}{(n-k)!} = \prod_{i=0}^{k-1} (n - i) \pmod{1{,}000{,}000}$:
+```R
+numbers <- n:(n - k + 1)
+result  <- 1
+for (val in numbers) {
+  result <- (result * val) %% 1000000
 }
 ```
 
-### 2. High-Throughput GC-Content Calculation (`GC`)
-Leveraging Biostrings matrix operations for instant nucleotide counting across multiple FASTA entries:
-```R
-library(Biostrings)
-sequences  <- readDNAStringSet("rosalind_gc.txt")
-gc_count   <- rowSums(letterFrequency(sequences, letters = c("G", "C")))
-gc_percent <- (gc_count / width(sequences)) * 100
-
-max_idx <- which.max(gc_percent)
-cat(sprintf("%s\n%.6f\n", names(sequences)[max_idx], gc_percent[max_idx]))
-```
-
-### 3. Mortal Fibonacci Rabbits (`FIBD`)
+### 4. Mortal Fibonacci Rabbits (`FIBD`)
 Simulating demographic age shifts with mortality limits $m$ using `gmp::bigz` to prevent integer overflow over large generational intervals:
 ```R
 library(gmp)
@@ -132,7 +139,7 @@ for (month in 2:n) {
 total_population <- sum(ages)
 ```
 
-### 4. Transition/Transversion Ratio (`TRAN`)
+### 5. Transition/Transversion Ratio (`TRAN`)
 Distinguishing purine-to-purine ($	ext{A} \leftrightarrow 	ext{G}$) and pyrimidine-to-pyrimidine ($	ext{C} \leftrightarrow 	ext{T}$) transitions from transversions across aligned DNA strings:
 ```R
 transitions <- 0
@@ -151,7 +158,7 @@ for (i in seq_along(s1_char)) {
 ratio <- transitions / transversions
 ```
 
-### 5. Hash-Based Overlap Graph Construction (`GRPH`)
+### 6. Hash-Based Overlap Graph Construction (`GRPH`)
 Efficient prefix-to-suffix lookup using hash lists instead of brute-force pairwise iterations:
 ```R
 prefix <- substr(seq, 1, 3)
@@ -166,12 +173,6 @@ for (i in seq_along(ids)) {
     edges <- c(edges, paste(ids[i], ids[matches]))
   }
 }
-```
-
-### 6. Zero-Width Lookahead for Overlapping Motifs (`MPRT`)
-To identify N-glycosylation motifs (`N{P}[ST]{P}`) without consuming overlapping positions, Perl-Compatible Regular Expressions (PCRE) with positive lookahead are utilized:
-```R
-matches <- gregexpr("N(?=[^P][ST][^P])", seq, perl = TRUE)[[1]]
 ```
 
 ---
@@ -205,5 +206,3 @@ Clone the repository and run any problem script directly from your terminal:
 ```bash
 git clone https://github.com/<your-username>/rosalind-r-solutions.git
 cd rosalind-r-solutions
-Rscript scripts/RNA_translation.R
-```

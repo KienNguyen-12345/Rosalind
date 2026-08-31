@@ -58,9 +58,8 @@ This repository demonstrates practical implementations of computational biology 
 │   ├── independent_alleles.R             # Mendelian Inheritance Probability (LIA)
 │   ├── mrna_inferring.R                  # Inferring mRNA from Protein (MRNA)
 │   └── perfect_matchings_rna.R           # RNA Secondary Structure Combinatorics (PMCH)
-├── data/                                 # Sample input files (.txt, .fasta)
 ├── README.md                             # Repository documentation
-└── LICENSE                               # MIT License
+
 ```
 
 ---

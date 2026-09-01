@@ -1,3 +1,7 @@
+# RNA to Protein Translation (Rosalind PROT) - Manual Codon Table Version
+# Author: Kien Nguyen
+# No external packages - implements translation with a custom codon lookup table
+
 codon_table <- c(
   "UUU"="F", "UUC"="F", "UUA"="L", "UUG"="L",
   "UCU"="S", "UCC"="S", "UCA"="S", "UCG"="S",
@@ -38,5 +42,5 @@ paste(translate, collapse = "")
 }
 
 sequence <- readLines("rosalind_prot.txt")
-sequence
+sequence <- paste(sequence_lines, collapse = "")
 cat(rna_translate(sequence), file = 'protein_result_v2')

@@ -1,3 +1,9 @@
+# Computing GC Content (Rosalind GC) - Function Wrapper Version
+# Author: Kien Nguyen
+# Encapsulates GC calculation in a reusable function
+# Uses Biostrings::letterFrequency for efficient counting
+
+
 library(Biostrings)
 
 sequence <- readDNAStringSet("rosalind_gc (1).txt")

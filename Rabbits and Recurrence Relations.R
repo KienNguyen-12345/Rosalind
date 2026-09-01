@@ -1,3 +1,8 @@
+# Rabbits and Recurrence Relations (Rosalind FIB)
+# Author: Kien Nguyen
+# Reads n and k from rosalind_fib.txt
+# Calculates the nth Fibonacci number with reproductive factor k
+
 solved_rabbit <- function(n,k){
   #knowing that the  Fibonacci sequence is shown as: F = Fn-1 + K* Fn-2:
   #set value:
@@ -13,7 +18,9 @@ solved_rabbit <- function(n,k){
   return (rabbits[n])
 }
 
-n <- 29
-k <- 4
-
+#Read values:
+data <- readLines("rosalind_fib.txt")
+data <- strsplit(data, " ")[[1]]
+n <- as.numeric(data[1])
+k <- as.numeric(data[2])
 solved_rabbit(n,k)

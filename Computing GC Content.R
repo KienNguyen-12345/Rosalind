@@ -3,10 +3,11 @@
 # Encapsulates GC calculation in a reusable function
 # Uses Biostrings::letterFrequency for efficient counting
 
-
+#load package:
 library(Biostrings)
 
-sequence <- readDNAStringSet("rosalind_gc (1).txt")
+#
+sequence <- readDNAStringSet("rosalind_gc.txt")
 value <- function(sequence) {
    #Calculate GC content:
   #Count GC content:

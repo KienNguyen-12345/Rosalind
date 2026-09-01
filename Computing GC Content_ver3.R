@@ -1,3 +1,7 @@
+# Computing GC Content (Rosalind GC) - Biostrings Optimized
+# Author: Kien Nguyen
+# Uses Biostrings::letterFrequency in one vectorized operation
+
 library(Biostrings)
 sequences <- readDNAStringSet("rosalind_gc.txt")
 gc_count <- rowSums(letterFrequency(sequences, letters = c("G","C")))

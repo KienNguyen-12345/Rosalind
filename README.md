@@ -107,7 +107,7 @@ For several foundational problems, this repository includes **multiple independe
 
 This was a practice to:
 - **Test different computational paradigms** (vectorized operations vs. manual iterations).
-- **Validate results through independent methods** ensure the result between using package and base R provide the same result.
+- **Validate results through independent methods** ensure the result between using package and base R provide the same answer.
 
 
 ### Example: Counting DNA Nucleotides (`DNA`)

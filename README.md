@@ -136,7 +136,6 @@ The following three scripts solve the exact same problem but use entirely differ
 | **ver3** | `Computing GC Content_ver3.R` | `Biostrings::letterFrequency` with `width()` | Efficient vectorized Bioconductor approach. Production-ready. |
 | **primary** | `Computing GC Content.R` | Same as ver3, but wrapped in a function | Shows awareness of code organization and reusability. |
 
-
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
 

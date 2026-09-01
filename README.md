@@ -101,6 +101,28 @@ This repository demonstrates practical implementations of computational biology 
 | **`MRNA`** | Inferring mRNA from Protein | Modular Arithmetic / Reverse Translation | Frequency mapping modulo $10^6$ |
 | **`PMCH`** | Perfect Matchings & RNA Structures | Big Integer Combinatorics ($n!$) | `gmp::factorialZ` |
 
+## 📝 Versioning & Implementation Transparency
+
+For several foundational problems, this repository includes **multiple independent implementations** (e.g., `_ver1.R`, `_ver2.R`, `_ver3.R`). 
+
+This was a practice to:
+- **Test different computational paradigms** (vectorized operations vs. manual iterations).
+- **Validate results through independent methods** ensure the result between using package and base R provide the same result.
+
+
+### Example: Counting DNA Nucleotides (`DNA`)
+
+The following three scripts solve the exact same problem but use entirely different R approaches:
+
+| Version | File | Approach | Rationale |
+| :--- | :--- | :--- | :--- |
+| **v1** | `Counting DNA Nucleotides.R` | Uses `stringr::str_count` with a vectorized pattern | Quick, readable, leverages the tidyverse ecosystem. Best for interactive analysis. |
+| **v2** | `Counting DNA Nucleotides_ver2.R` | Uses base R `strsplit` + manual `sum()` calls | No external dependencies. |
+| **v3** | `Counting DNA Nucleotides.R_ver3.R` | Uses base R `table()` + `factor(..., levels=...)` | Quick, memory efficient. |
+
+All three versions read from `rosalind_dna.txt` and produce identical, correct output. They are included here for **transparency** and to reflect my iterative problem-solving mindset—qualities I believe are essential for reproducible biomedical research.
+
+*(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
 
 ## 🚀 Key Highlights & Implementations

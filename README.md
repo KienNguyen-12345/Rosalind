@@ -143,7 +143,12 @@ The following three scripts solve the exact same problem but use entirely differ
 | **primary (vectorized)** | `Counting Mutation.R` | `unlist(strsplit())` + vectorized comparison `!=` + `sum()` | Efficient R vectorization. Clean and concise. |
 | **ver2 (manual)** | `Counting Mutation_ver2.R` | Manual `for` loop with an accumulator | Understanding of the underlying algorithm. Step-by-step iteration. |
 
+### Example: Translating RNA into Protein (`PROT`)
 
+| Version | File | Approach | What It Demonstrates |
+| :--- | :--- | :--- | :--- |
+| **v1 (Biostrings)** | `Translating RNA into Protein.R` | `Biostrings::translate(..., no.init.codon = TRUE)` | Efficient, production-ready translation. Industry-standard Bioconductor package. |
+| **v2 (Manual)** | `rna to protein_ver2.R` | Custom 64-codon lookup table + manual translation | Complete transparency. Shows understanding of the genetic code and codon-to-amino-acid mapping. |
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
 

@@ -3,8 +3,7 @@
 [![Language](https://img.shields.io/badge/Language-R_%3E%3D_4.0-blue.svg)](https://www.r-project.org/)
 [![Bioconductor](https://img.shields.io/badge/Bioconductor-Biostrings-green.svg)](https://bioconductor.org/packages/release/bioc/html/Biostrings.html)
 [![Platform](https://img.shields.io/badge/Platform-Rosalind-purple.svg)](https://rosalind.info/)
-
-A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, 6-frame open reading frame (ORF) discovery, $k$-mer composition profiling, signed permutations, probabilistic sequence modeling, combinatorics, lexicographic enumeration, dynamic programming, population genetics, graph theory, and motif discovery using base R and high-performance Bioconductor packages.
+A curated collection of clean, idiomatic, and efficient **R** solutions to algorithmic bioinformatics challenges from [Rosalind](https://rosalind.info/). This repository covers foundational sequence manipulation, 6-frame open reading frame (ORF) discovery, $k$-mer composition profiling, graph theory (connected components, trees, overlap graphs), signed permutations, probabilistic sequence modeling, combinatorics, lexicographic enumeration, dynamic programming, population genetics, and motif discovery using base R and high-performance Bioconductor packages.
 
 ---
 
@@ -13,6 +12,7 @@ A curated collection of clean, idiomatic, and efficient **R** solutions to algor
 This repository demonstrates practical implementations of computational biology algorithms, emphasizing:
 - **Idiomatic R & Vectorization:** Writing efficient R code with minimized overhead and vectorized transformations.
 - **Bioconductor Integration:** Leveraging standard high-throughput sequence analysis packages like `Biostrings` for FASTA parsing, 6-frame ORF extraction, translation, consensus matrices, letter frequencies, and reverse complementation.
+- **Graph Theory & Tree Topology:** Identifying connected components via Disjoint-Set / Union-Find logic to compute the minimum edges required to construct spanning trees ($C - 1$).
 - **$k$-mer Profiling & Sequence Signatures:** Generating canonical lexicographic 4-mer dictionaries ($4^4 = 256$) and scanning genomic sequences to construct complete $k$-mer frequency arrays.
 - **Signed Combinatorial Search:** Enumerating signed permutations ($2^n \cdot n!$) using recursive depth-first backtracking branching over both positive and negative states.
 - **Probabilistic Modeling & Random Strings:** Modeling random GC-content backgrounds using log-probabilities ($\log_{10} P$), computing sequence matching probabilities across Bernoulli trials, and preventing arithmetic underflow.
@@ -43,6 +43,7 @@ This repository demonstrates practical implementations of computational biology 
 │   ├── mortal_fibonacci_rabbits.R        # Mortal Fibonacci Rabbits (FIBD)
 │   ├── consensus_profile.R               # Consensus and Profile Matrix (CONS)
 │   ├── overlap_graphs.R                  # Overlap Graphs (GRPH)
+│   ├── completing_tree.R                 # Completing a Tree (TREE)
 │   ├── expected_offspring.R              # Calculating Expected Offspring (IEV)
 │   ├── random_strings_prob.R             # Introduction to Random Strings (PROB)
 │   ├── random_strings_eval.R             # Matching Random Motifs / String Evaluation (EVAL)
@@ -59,7 +60,6 @@ This repository demonstrates practical implementations of computational biology 
 │   ├── mrna_inferring.R                  # Inferring mRNA from Protein (MRNA)
 │   └── perfect_matchings_rna.R           # RNA Secondary Structure Combinatorics (PMCH)
 ├── README.md                             # Repository documentation
-
 ```
 
 ---
@@ -82,6 +82,7 @@ This repository demonstrates practical implementations of computational biology 
 | **`FIBD`** | Mortal Fibonacci Rabbits | Dynamic Programming / Age Shifting | Vector state-tracking with `gmp::bigz` |
 | **`CONS`** | Consensus and Profile | Alignment Matrix & Position Scoring | `Biostrings::consensusMatrix` |
 | **`GRPH`** | Overlap Graphs | Prefix/Suffix Hash Lookups ($k=3$) | `base::split` hash lookups & adjacency list |
+| **`TREE`** | Completing a Tree | Connected Components / Disjoint Sets | Component merging & spanning tree minimum edges ($C - 1$) |
 | **`IEV`** | Calculating Expected Offspring | Linearity of Expectation | Vectorized dot product `sum(couples * prob)` |
 | **`PROB`** | Introduction to Random Strings | Log-Likelihood & GC-content Backgrounds | Log-space probabilities $\log_{10} P(s \mid x)$ |
 | **`EVAL`** | Matching Random Motifs | Bernoulli Trials & Independence Probability | Single-string matching $P(s) = (\frac{x}{2})^{GC} (\frac{1-x}{2})^{AT}$ |
@@ -102,7 +103,23 @@ This repository demonstrates practical implementations of computational biology 
 
 ## 🚀 Key Highlights & Implementations
 
-### 1. Signed Gene Permutations (`SIGN`)
+### 1. Connected Components & Tree Completion (`TREE`)
+Determining the minimum number of edges needed to connect an unrooted forest into a single spanning tree by tracking component equivalence classes:
+```R
+# Merge component labels for each edge
+for (i in 1:nrow(edges)) {
+  a <- edges[i, 1]
+  b <- edges[i, 2]
+  if (groups[a] != groups[b]) {
+    groups[groups == groups[b]] <- groups[a]
+  }
+}
+
+# C components require C - 1 edges to form a tree
+min_edges <- length(unique(groups)) - 1
+```
+
+### 2. Signed Gene Permutations (`SIGN`)
 Generating all $2^n \cdot n!$ signed permutations by branching both positive and negative values during depth-first recursive exploration:
 ```R
 generate_permutation <- function(current, remaining) {
@@ -120,32 +137,14 @@ generate_permutation <- function(current, remaining) {
 }
 ```
 
-### 2. Complete $k$-mer Composition Matrix (`KMER`)
+### 3. Complete $k$-mer Composition Matrix (`KMER`)
 Generating all $4^4 = 256$ 4-mers lexicographically and computing occurrence counts across a sliding sequence window:
 ```R
-# Scan overlapping 4-mers across the chromosome/sequence
 counts <- rep(0, 256)
 for (j in 1:(nchar(seq) - 3)) {
   overlap_seq <- substr(seq, start = j, stop = j + 3)
   position <- which(four_mer == overlap_seq)
   counts[position] <- counts[position] + 1
-}
-```
-
-### 3. Lexicographic Enumeration of Varying Lengths (`LEXV`)
-Generating all strings up to length $n$ under a custom alphabet ordering using pre-order tree traversal:
-```R
-solved_problem <- function(current) {
-  if (nchar(current) != 0) {
-    cat(current, "
-")
-  }
-  if (nchar(current) == n) {
-    return()
-  }
-  for (i in bases) {
-    solved_problem(paste0(current, i))
-  }
 }
 ```
 
@@ -212,5 +211,5 @@ Clone the repository and run any problem script directly from your terminal:
 ```bash
 git clone https://github.com/<your-username>/rosalind-r-solutions.git
 cd rosalind-r-solutions
-Rscript scripts/kmer_composition.R
+Rscript scripts/completing_tree.R
 ```

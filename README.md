@@ -136,6 +136,14 @@ The following three scripts solve the exact same problem but use entirely differ
 | **ver3** | `Computing GC Content_ver3.R` | `Biostrings::letterFrequency` with `width()` | Efficient vectorized Bioconductor approach. Production-ready. |
 | **primary** | `Computing GC Content.R` | Same as ver3, but wrapped in a function | Shows awareness of code organization and reusability. |
 
+### Example: Counting Point Mutations (`HAMM`)
+
+| Version | File | Approach | What It Demonstrates |
+| :--- | :--- | :--- | :--- |
+| **primary (vectorized)** | `Counting Mutation.R` | `unlist(strsplit())` + vectorized comparison `!=` + `sum()` | Efficient R vectorization. Clean and concise. |
+| **ver2 (manual)** | `Counting Mutation_ver2.R` | Manual `for` loop with an accumulator | Understanding of the underlying algorithm. Step-by-step iteration. |
+
+
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
 

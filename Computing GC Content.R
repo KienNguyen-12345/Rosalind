@@ -6,7 +6,7 @@
 #load package:
 library(Biostrings)
 
-#
+#Input data: 
 sequence <- readDNAStringSet("rosalind_gc.txt")
 value <- function(sequence) {
    #Calculate GC content:

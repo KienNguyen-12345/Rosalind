@@ -120,8 +120,6 @@ The following three scripts solve the exact same problem but use entirely differ
 | **v2** | `Counting DNA Nucleotides_ver2.R` | Uses base R `strsplit` + manual `sum()` calls | No external dependencies. |
 | **v3** | `Counting DNA Nucleotides.R_ver3.R` | Uses base R `table()` + `factor(..., levels=...)` | Quick, memory efficient. |
 
-All three versions read from `rosalind_dna.txt` and produce identical, correct output. They are included here for **transparency** and to reflect my iterative problem-solving mindset—qualities I believe are essential for reproducible biomedical research.
-
 ### Example: Complementing a Strand of DNA (`REVC`)
 
 | Version | File | Approach | Rationale |
@@ -129,8 +127,15 @@ All three versions read from `rosalind_dna.txt` and produce identical, correct o
 | **v1 (Biostrings)** | `Complementing a Strand of DNA.R` | Uses `Biostrings::reverseComplement()` + tidyverse pipes | Industry-standard for high-throughput sequencing. Concise and efficient. |
 | **v2 (Base R)** | `Complementing a Strand of DNA_ver2.R` | Uses `chartr()` + manual reversal with `rev()` and `strsplit()` | No external dependencies. Transparent step-by-step logic. Shows understanding of the underlying algorithm. |
 
-**Why both?**  
-The Biostrings version is what you'd use in a production pipeline. The base R version is a valuable fallback for environments without Bioconductor and demonstrates that I understand *how* reverse complement works under the hood—not just how to call a package function.
+
+### Example: Computing GC Content (`GC`)
+
+| Version | File | Approach | What It Demonstrates |
+| :--- | :--- | :--- | :--- |
+| **ver2** | `Computing GC Content_ver2.R` | Manual GC counting with `strsplit` + `sapply` | Understanding of the underlying algorithm. No `Biostrings` manipulation required. |
+| **ver3** | `Computing GC Content_ver3.R` | `Biostrings::letterFrequency` with `width()` | Efficient vectorized Bioconductor approach. Production-ready. |
+| **primary** | `Computing GC Content.R` | Same as ver3, but wrapped in a function | Shows awareness of code organization and reusability. |
+
 
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---

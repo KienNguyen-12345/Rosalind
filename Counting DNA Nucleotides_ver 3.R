@@ -1,3 +1,7 @@
+# Counting DNA Nucleotides (Rosalind DNA)
+# Author: Kien Nguyen
+# Reads rosalind_dna.txt and prints A C G T counts
+
 data <- readLines("rosalind_dna.txt")
 
 bases <- unlist(strsplit(data, ""))

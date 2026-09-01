@@ -56,5 +56,10 @@ mendel_prob <- function(k, m, n) {
 }
 
 # Step 7: Run the function with the sample dataset.
-# (k=23, m=18, n=15) - this specific input is provided by Rosalind.
-mendel_prob(23, 18, 15)
+data <- readLines("rosalind_iprb.txt")
+data <- strsplit(data, " ")[[1]]
+k <- as.numeric(data[1])
+m <- as.numeric(data[2])
+n <- as.numeric(data[3])
+mendel_prob(k,m,n)
+

@@ -18,7 +18,9 @@ find_motif_position <- function(s,t){
   # All possible starting positions:
   start_indices <- 1:max_start
   # Extract every substring of length t
-  substring <- character(length(start_indices))
+  #1. Make an empty list containing a start_indices amount of empty variable:
+  substring <- character(length(start_indices)) 
+  #2. substring all of the possible motif:
   for(i in seq_along(start_indices)){
     pos <- start_indices[i]
     substring[i] <- substr(s, pos, pos + length_t -1) 

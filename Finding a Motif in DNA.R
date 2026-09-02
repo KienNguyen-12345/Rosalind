@@ -3,10 +3,16 @@
 # Finds all occurrences of a motif (t) within a DNA sequence (s)
 # Uses a sliding window approach with 1-based indexing
 
-
+#Legend: 
+#s: the sequence of full length
+#t: the sequence of the motif in which we need to find
+#Establish function:
 find_motif_position <- function(s,t){
+  #Establish the length of s:
   length_s <- nchar(s)
+   #Establish the length of t:
   length_t <- nchar(t)
+  
   # Last possible starting position:
   max_start <- length_s-length_t + 1
 

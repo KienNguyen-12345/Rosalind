@@ -1,6 +1,13 @@
+# Overlap Graphs (Rosalind GRPH)
+# Author: Kien Nguyen
+# Finds all directed edges where the suffix of one sequence (3 bases)
+# matches the prefix of another sequence (3 bases)
+# Uses a prefix lookup table for O(n) efficiency
+
+
 library(Biostrings)
 #Read data:
-sequences <- readDNAStringSet("rosalind_grph (1).txt")
+sequences <- readDNAStringSet("rosalind_grph.txt")
 ids <- names(sequences)
 seq <- as.character(sequences)
 
@@ -10,9 +17,9 @@ suffix <- substr(seq, nchar(seq)-2, nchar(seq))
 
 #Create a look up value for prefixes:
 prefix_lookup <- split(1:length(ids), prefix)
+prefix_lookup
 
 #Assign empty value for edge:
-edges <- 0
 
 for(i in 1:length(ids)){
   matching_prefix <- prefix_lookup[[suffix[i]]]
@@ -21,4 +28,4 @@ for(i in 1:length(ids)){
     edges <- c(edges,paste(ids[i],ids[matching_prefix]))
   }
 }
-cat(edges, sep = "\n")
+cat(edges, sep = "\n", file = "result.txt")

@@ -1,4 +1,19 @@
-number_of_couple <- c(19334, 16344, 18129, 19342, 19561, 16820)
+# Calculating Expected Offspring (Rosalind IEV)
+# Author: Kien Nguyen
+# Calculates the expected number of offspring with the dominant phenotype
+# given counts of couples for each of 6 genotype pairings.
+
+data <- readLines("rosalind_iev.txt")
+data <- strsplit(data, " ")[[1]]
+
+couple_1 <- data[1]
+couple_2 <- data[2]
+couple_3 <- data[3]
+couple_4 <- data[4]
+couple_5 <- data[5]
+couple_6 <- data[6]
+number_of_couple <- c(couple_1, couple_2, couple_3, couple_4, couple_5, couple_6)
+
 
 prob_of_dom <- c(2,2,2,1.5,1,0)
 'Why 2,2,2,1.5,1,0?

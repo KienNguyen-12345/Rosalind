@@ -10,8 +10,8 @@ seqs <- readDNAStringSet("rosalind_cons.txt")
 
 
 # Compute profile: counts of A, C, G, T at each position
-profile <- consensusMatrix(seqs, baseOnly = TRUE)[c("A","C","G","T"), , drop = FALSE]
-profile
+profile <- consensusMatrix(seqs, baseOnly = TRUE)[row_index = c("A","C","G","T"), column_index=  , drop = FALSE]
+
 # Determine consensus: at each column, pick the base with highest count
 consensus <- paste0(rownames(profile)[apply(profile, 2, which.max)], collapse = "")
 
@@ -22,6 +22,6 @@ cat("A:", paste(profile["A", ], collapse = " "), "\n")
 cat("C:", paste(profile["C", ], collapse = " "), "\n")
 cat("G:", paste(profile["G", ], collapse = " "), "\n")
 cat("T:", paste(profile["T", ], collapse = " "), "\n")
-
 sink()
+
 

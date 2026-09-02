@@ -20,6 +20,7 @@ result <- function(sequences){
   cat(concensus, file = "result.txt")
 }
 
+#Export result to "result.txt" file:
 sink("result.txt")
 cat(consensus, "\n")
 cat("A:", paste(profile["A", ], collapse = " "), "\n")

@@ -1,30 +1,27 @@
 # Consensus and Profile (Rosalind CONS)
 # Author: Kien Nguyen
-# Calculates the consensus string and profile matrix from a multiple sequence alignment
-#Load package
+# Computes a profile matrix and consensus sequence from a multiple sequence alignment
+# Uses Biostrings::consensusMatrix for efficient profile construction
+
 library(Biostrings)
 
-#Identify the bases
-bases <- c("A","C","G","T")
+# Read sequences (assumes file is in FASTA format)
+seqs <- readDNAStringSet("rosalind_cons.txt")
 
-# Step 1: Read the FASTA file as a DNA multiple alignment
-sequences <- DNAMultipleAlignment(readDNAStringSet("rosalind_cons.txt"))
 
-#Establish function:
-result <- function(sequences){
-  
-  profile <-consensusMatrix(sequences, bases,
-                            as.prob = FALSE) [1:4,]
-  concensus <- paste0(bases[apply(profile, 2, which.max)],
-                      collapse = "")
-  cat(concensus, file = "result.txt")
-}
+# Compute profile: counts of A, C, G, T at each position
+profile <- consensusMatrix(seqs, baseOnly = TRUE)[c("A","C","G","T"), , drop = FALSE]
+profile
+# Determine consensus: at each column, pick the base with highest count
+consensus <- paste0(rownames(profile)[apply(profile, 2, which.max)], collapse = "")
 
-#Export result to "result.txt" file:
+# Print results as required by Rosalind
 sink("result.txt")
 cat(consensus, "\n")
 cat("A:", paste(profile["A", ], collapse = " "), "\n")
 cat("C:", paste(profile["C", ], collapse = " "), "\n")
 cat("G:", paste(profile["G", ], collapse = " "), "\n")
 cat("T:", paste(profile["T", ], collapse = " "), "\n")
+
 sink()
+

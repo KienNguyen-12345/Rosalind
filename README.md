@@ -150,6 +150,14 @@ The following three scripts solve the exact same problem but use entirely differ
 | **v1 (Biostrings)** | `Translating RNA into Protein.R` | `Biostrings::translate(..., no.init.codon = TRUE)` | Efficient, production-ready translation. Industry-standard Bioconductor package. |
 | **v2 (Manual)** | `rna to protein_ver2.R` | Custom 64-codon lookup table + manual translation | Complete transparency. Shows understanding of the genetic code and codon-to-amino-acid mapping. |
 
+### Example: Finding a Motif in DNA (`SUBS`)
+
+| Version | File | Approach | What It Demonstrates |
+| :--- | :--- | :--- | :--- |
+| **primary** | `Finding a Motif in DNA.R` | Uses `sapply()` to apply `substr()` across all possible start positions | Functional programming in R. Concise and efficient. |
+| **ver2** | `Finding a Motif in DNA_ver2.R` | Uses a `for` loop with pre-allocation to build the substring vector | Explicit iteration logic. Shows understanding of memory management (pre-allocation). |
+
+
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
 

@@ -1,7 +1,7 @@
 # Finding a Motif in DNA (Rosalind SUBS)
 # Author: Kien Nguyen
 # Finds all occurrences of a motif (t) within a DNA sequence (s)
-# Uses a sliding window approach with 1-based indexing
+# Uses a sliding window approach with 1-based indexing using saplly function
 
 #Legend: 
 #s: the sequence of full length

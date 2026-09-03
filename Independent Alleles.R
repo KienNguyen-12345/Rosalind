@@ -1,7 +1,6 @@
 # Independent Alleles (Rosalind LIA)
 # Author: Kien Nguyen
-# Calculates the probability that at least N organisms in generation k
-# are Aa Bb (heterozygous at both loci)
+# Calculates the probability that at least N organisms in generation k are Aa Bb (heterozygous at both loci)
 # Uses the binomial distribution with p = 0.25
 
 lia_probability <- function(k, N) {
@@ -22,6 +21,10 @@ lia_probability <- function(k, N) {
   return(prob)
 }
 
-# Example: k=7, N=30
-result <- lia_probability(7, 30)
+# Solve problem:
+data <- readLines("rosalind_lia.txt")
+data <- strsplit(data, "")[[1]]
+k <- as.numeric(data[1])
+N <- as.numeric(data[3])
+result <- lia_probability(k,N)
 cat(round(result, 3), "\n")

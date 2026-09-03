@@ -1,3 +1,10 @@
+# Finding a Protein Motif (Rosalind MPRT)
+# Author: Kien Nguyen
+# Queries the UniProt REST API to fetch protein sequences
+# Finds all occurrences of the N-glycosylation motif: N{P}[ST]{P}
+# Uses a lookahead regex to find overlapping matches
+
+
 library(Biostrings)
 sequences <- as.character(readDNAStringSet("rosalind_lcsm.txt"))
 find_shared_motif <- function(sequences){

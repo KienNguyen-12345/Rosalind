@@ -3,10 +3,14 @@
 # Finds the positions in sequence s that form the subsequence t
 # Uses a greedy two-pointer approach: O(n) time complexity
 
+#Load Package:
+library(Biostrings)
 # Read input: first line is sequence s, second line is motif t
-lines <- readLines("rosalind_sseq.txt")
-s <- lines[1]
-t <- lines[2]
+
+lines <- readDNAStringSet("rosalind_sseq.txt")
+lines
+s <- as.character(lines[1])
+t <- as.character(lines[2])
 
 # Convert strings to character vectors
 s_chars <- strsplit(s, "")[[1]]

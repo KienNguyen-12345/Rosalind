@@ -1,3 +1,8 @@
+# Completing a Tree (Rosalind TREE)
+# Author: Kien Nguyen
+# Calculates the minimum number of edges needed to connect a forest into a single tree
+# Uses Union-Find (Disjoint Set Union) to identify connected components
+
 # Read every line from the input file and store it as a character vector
 input <- readLines("rosalind_tree.txt")
 
@@ -67,4 +72,4 @@ number_edges <- component - 1
 
 
 # Print the final answer
-print(number_edges)
+cat(number_edges, "\n")

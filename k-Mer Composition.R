@@ -1,3 +1,8 @@
+# k-Mer Composition (Rosalind KMER)
+# Author: Kien Nguyen
+# Counts the frequency of every possible 4-mer in a DNA sequence
+# Outputs counts in lexicographic order (AAAA, AAAC, ..., TTTT)
+
 # Load the Biostrings package for handling DNA sequences
 library(Biostrings)
 

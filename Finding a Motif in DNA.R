@@ -2,8 +2,9 @@
 # Author: Kien Nguyen
 # Uses regex lookahead to find overlapping motif matches
 
-s <- "GATATATGCATATACTT"
-t <- "ATAT"
+seqs <- readLines("rosalind_subs.txt")
+s <- seqs[1]
+t <- seqs[2]
 
 # Construct lookahead pattern: (?=ATAT)
 # This matches positions where ATAT appears, without consuming characters

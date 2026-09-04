@@ -1,60 +1,46 @@
-n <- as.numeric(readLines("rosalind_sign (1).txt"))
+# Enumerating Oriented Gene Orderings (Rosalind SIGN)
+# Author: Kien Nguyen
+# Generates all signed permutations of numbers 1..n
+# Each number appears exactly once, with either + or - sign
+# Total count = n! × 2^n
 
+# Read input
+n <- as.numeric(readLines("rosalind_sign.txt"))
+
+# Initialize variables
 remaining <- 1:n
-
-#Create empty variable:
-
 result <- list()
-
 current <- c()
 
-#Function:
-
-generate_permutation <- function(current, remaining){
-  
-  # If the current permutation reaches length n, record it to global result
-  
-  if (length(current) == n){
-    
-    result[[length(result) +1 ]] <<- current
-    
+# Recursive function to generate signed permutations
+generate_permutation <- function(current, remaining) {
+  # Base case: if we've used all numbers, record the permutation
+  if (length(current) == n) {
+    result[[length(result) + 1]] <<- current
     return()
-    
   }
   
-  # Iterate over all available numbers to branch into new permutations
-  
-  for(x in remaining) {
+  # For each remaining number, branch to both positive and negative
+  for (x in remaining) {
+    new_remaining <- remaining[remaining != x]
     
-    new_current <- c(current, x) # Append chosen element to current path
+    # Branch 1: positive x
+    generate_permutation(c(current, x), new_remaining)
     
-    new_remaining <- remaining[remaining!=x] # Remove chosen element from pool
-    
-    generate_permutation(new_current, new_remaining)
-      new_current <- c(current, -x)
-      new_remaining <- remaining[remaining!=x] 
-      generate_permutation(new_current, new_remaining)
-  
+    # Branch 2: negative x
+    generate_permutation(c(current, -x), new_remaining)
+  }
 }
-}
-# Start generating:
 
+# Start generating
 generate_permutation(current, remaining)
 
-#Generate result:
-output <- sapply(result, function(x){
-  paste(x, collapse = " ")
-})
-#Make new file:
-file <- file("Result.txt", open = "w")
-
-#Add factorial as the first line nside the file:
-writeLines(as.character(factorial(n)* 2^n), file)
-
-#Print permutations inside the file:
-for(p in result){
-  writeLines(paste(p, collapse = " "), file)
-}
-#Close the file once done:
-close(file)
-
+# Write output
+total_count <- factorial(n) * 2^n
+writeLines(
+  c(
+    as.character(total_count),
+    sapply(result, paste, collapse = " ")
+  ),
+  "result.txt"
+)

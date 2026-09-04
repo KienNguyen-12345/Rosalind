@@ -1,3 +1,8 @@
+# Open Reading Frames (Rosalind ORF)
+# Author: Kien Nguyen
+# Finds all unique proteins encoded by a DNA sequence in all 6 reading frames
+# Forward frames: 0, 1, 2; Reverse complement frames: 0, 1, 2
+
 library(Biostrings)
 #Read data:
 dna <- readDNAStringSet("rosalind_orf (2).txt")[[1]]

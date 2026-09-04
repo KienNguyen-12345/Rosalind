@@ -1,21 +1,33 @@
-sequence <- readLines("rosalind_prob (1).txt")[1]
+# Introduction to Random Strings (Rosalind PROB)
+# Author: Kien Nguyen
+# Calculates the log10 probability of a DNA sequence for each given GC-content value
+# Formula: log10(Pr) = GC_count × log10(GC/2) + AT_count × log10((1-GC)/2)
 
+# Read input: first line is sequence, second line is gc_content of GC-content values
+sequence <- readLines("rosalind_prob.txt")[1]
+
+# Count G and C bases
 bases <- strsplit(sequence,"")[[1]]
 gc_count <- sum(bases %in% c("G","C"))
 
-
-
+# Parse the gc_content of GC-content values
 at_number <- length(bases) -  gc_count
 
-Array <- c(0.089, 0.166, 0.186, 0.234, 0.309, 0.346, 0.440, 0.468, 0.533, 0.577, 0.636, 0.707, 0.769, 0.813, 0.875, 0.906)
-solved_problem <- function(Array){
-  for(i in 1: length(Array)){
-    x <- Array[i]
+#Get the gc_content sequence, split the string and transform to number
+gc_content <- as.character(readLines("rosalind_prob.txt")[2])
+gc_content <- strsplit(gc_content, " ")[[1]]
+gc_content <- as.numeric(gc_content)
+
+#Establish function
+solved_problem <- function(gc_content){
+  for(i in 1: length(gc_content)){
+    x <- gc_content[i]
     result <- gc_count * log10(x / 2) +
       at_number * log10((1 - x) / 2)
-    cat(round(result, 3), "", file= "result")
+    result <- round(result, 3)
+    cat(result, "")
   }
-}
-solved_problem(Array)
+  }
+solved_problem(gc_content)
 
 

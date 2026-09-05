@@ -95,7 +95,7 @@ This repository demonstrates practical implementations of computational biology 
 | **`LEXF`** | Enumerating $k$-mers Lexicographically | Exact-Depth Recursive Backtracking | Depth-bounded recursive string building |
 | **`LEXV`** | Ordering Strings of Varying Length | Variable-Depth Prefix Tree Traversal | Pre-order recursive traversal up to length $n$ |
 | **`SPLC`** | RNA Splicing | Exon Extraction & Splicing | `Biostrings`, `gsub(fixed=TRUE)` |
-| **`SSEQ`** | Finding a Spliced Motif | Subsequence Greedy Scan ($O(n)$) | Two-pointer traversal |
+| **`SSEQ`** | Finding a Spliced Motif | Subsequence Greedy Scan (O(n)) | Two-pointer traversal |
 | **`MPRT`** | Finding a Protein Motif | REST API & Lookahead Regex | `httr`, `gregexpr(perl=TRUE)` |
 | **`LIA`** | Independent Alleles | Binomial Cumulative Density Function | `stats::pbinom` |
 | **`MRNA`** | Inferring mRNA from Protein | Modular Arithmetic / Reverse Translation | Frequency mapping modulo $10^6$ |

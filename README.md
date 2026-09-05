@@ -152,11 +152,12 @@ The following three scripts solve the exact same problem but use entirely differ
 
 ### Example: Finding a Motif in DNA (`SUBS`)
 
-| Version | File | Approach | What It Demonstrates |
-| :--- | :--- | :--- | :--- |
-| **primary** | `Finding a Motif in DNA.R` | Uses `sapply()` to apply `substr()` across all possible start positions | Functional programming in R. Concise and efficient. |
-| **ver2** | `Finding a Motif in DNA_ver2.R` | Uses a `for` loop with pre-allocation to build the substring vector | Explicit iteration logic. Shows understanding of memory management (pre-allocation). |
+The following two scripts solve the same problem (find all overlapping occurrences of a motif in a DNA sequence) but use entirely different approaches:
 
+| Version | File | Approach | Rationale |
+| :--- | :--- | :--- | :--- |
+| **v1 (Sliding Window)** | `Finding a Motif in DNA_ver2.R` | Uses `substr()` with a sliding window, then `which()` to find matches | **Explicit and transparent.** Shows step-by-step logic. No regex complexity. Best for educational clarity and debugging. |
+| **v2 (Regex Lookahead)** | `Finding a Motif in DNA.R` | Uses `gregexpr()` with a dynamic lookahead pattern `(?=...)` | **Concise and elegant.** Handles overlapping matches naturally. Demonstrates advanced R/regex skills. |
 
 *(For brevity, only the most efficient or robust version of each remaining problem is included as the primary solution.)*
 ---
